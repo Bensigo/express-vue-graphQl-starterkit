@@ -44,7 +44,33 @@ module.exports = {
       // return the token
       return token
     },
-    login (root, args, {DB}) {
+    async login (root, args, {DB}) {
+      let {email, password} = args
+      // sever validation 
+      if (!email || !password) {
+        throw new Error('email and password required')
+      }
+      // making email and password lower case
+      email = email.toLowerCase()
+      password = password.toLowerCase()
+      // find user if user exist
+      const user = await DB.User.findOne({email})
+      if (!user) {
+        throw new Error('user not found')
+      }
+      // check if password match 
+      const verified = await bcryptjs.compare(password, user.password)
+      if (!verified) {
+        throw new Error('password does not match')
+      }
+      // asign token to user 
+      const token = jwt.sign({
+        user: _.pick(user, ['id', 'username'])},
+      config.SECRET, {
+        expiresIn: '7d'
+      }
+      )
+      return token
     }
   }
 }
