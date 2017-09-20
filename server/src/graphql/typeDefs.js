@@ -12,7 +12,7 @@ module.exports = `
    user(id: ID!): User!
  }
  type Mutation {
-   createUser(username: String!, email: String!, Password: String!): String!
+   createUser(username: String!, email: String!, password: String!): String!
    login(email: String!, password: String!): String!
  }
 `

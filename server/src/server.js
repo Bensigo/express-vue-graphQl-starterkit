@@ -7,7 +7,7 @@ const {graphiqlExpress, graphqlExpress} = require('apollo-server-express')
 
 // requiring app modules 
 const config = require('./config')
-const Schema = require('./graphql')
+const schema = require('./graphql')
 const DB = require('./Models')
 
 // making instance of the app 
@@ -19,7 +19,7 @@ app.use(morgan('dev'))
 
 // setting up graphql 
 app.use('/graphql', bodyParser.json(), graphqlExpress({
-  Schema,
+  schema,
   context: {
     DB
   }
