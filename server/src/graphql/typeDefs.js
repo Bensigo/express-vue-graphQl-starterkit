@@ -9,7 +9,7 @@ module.exports = `
   isActive: Boolean!
  }
  type Query {
-   user(id: ID!): User!
+  user: User!
  }
  type Mutation {
    createUser(username: String!, email: String!, password: String!): String!

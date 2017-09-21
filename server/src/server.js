@@ -9,6 +9,7 @@ const {graphiqlExpress, graphqlExpress} = require('apollo-server-express')
 const config = require('./config')
 const schema = require('./graphql')
 const DB = require('./Models')
+const user = require('./config/auth')
 
 // making instance of the app 
 const app = express()
@@ -16,14 +17,16 @@ const app = express()
 // setting up middle ware 
 app.use(cors({origin: config.ORIGIN}))
 app.use(morgan('dev'))
+app.use(user)
 
 // setting up graphql 
-app.use('/graphql', bodyParser.json(), graphqlExpress({
+app.use('/graphql', bodyParser.json(), graphqlExpress(req => ({
   schema,
   context: {
-    DB
+    DB,
+    user: req.user
   }
-}))
+})))
 
 app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql'
