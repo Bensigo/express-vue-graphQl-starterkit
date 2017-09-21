@@ -11,8 +11,12 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "apollo-client": "^1.9.2",
+    "graphql-tag": "^2.4.2",
     "vue": "^2.4.2",
-    "vue-router": "^2.7.0"
+    "vue-apollo": "^2.1.0-rc.5",
+    "vue-router": "^2.7.0",
+    "vuetify": "^0.15.7"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
