@@ -3,6 +3,7 @@ const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
 const config = require('../config')
+const uniqueValidator = require('mongoose-unique-validator')
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -32,6 +33,8 @@ const userSchema = new mongoose.Schema({
     default: false
   }
 })
+userSchema.plugin(uniqueValidator, ['field have to be unique'])
+
 // adding schema method
 userSchema.statics.newUser = async (email, username, password, User) => {
   // sever validation
