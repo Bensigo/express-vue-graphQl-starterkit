@@ -40,18 +40,23 @@ userSchema.statics.newUser = async (email, username, password, User) => {
   }
   email = email.toLowerCase()
   password = password.toLowerCase()
-  // hash the user password 
-  password = await bcryptjs.hash(password, 10)
-  // create a new instace of user 
-  const user = await new User({email, password, username})
-  user.save()
-  // asign a token to user 
-  const token = jwt.sign({
+  const exist = await User.findOne({email})
+  if (exist) {
+    throw new Error('user already exist')
+  }else {
+      // hash the user password 
+    password = await bcryptjs.hash(password, 10)
+    // create a new instace of user 
+    const user = await new User({email, password, username})
+    user.save()
+    // asign a token to user 
+    const token = jwt.sign({
     user: _.pick(user, ['_id'])
-  }, config.SECRET, {
-    expiresIn: '7d'
-  })
-  return token
+    }, config.SECRET, {
+      expiresIn: '7d'
+    })
+    return token
+  }
 }
 
 userSchema.statics.authenticate = async (email, password, User) => {

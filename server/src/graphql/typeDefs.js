@@ -8,11 +8,14 @@ module.exports = `
   createdAt: String!
   isActive: Boolean!
  }
+ type Token {
+  token: String!
+ }
  type Query {
   user: User!
  }
  type Mutation {
-   createUser(username: String!, email: String!, password: String!): String!
-   login(email: String!, password: String!): String!
+   createUser(username: String!, email: String!, password: String!): Token!
+   login(email: String!, password: String!): Token!
  }
 `

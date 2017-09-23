@@ -16,7 +16,7 @@ module.exports = {
       if (!user) {
         const User = DB.User
         const userToken = await User.newUser(email, username, password, User)
-        return userToken
+        return {token:userToken}
       }
     },
     async login (root, {email, password}, {DB, user}) {
@@ -24,7 +24,7 @@ module.exports = {
         // authenticate the user then return a token
         const User = DB.User
         const userToken = await User.authenticate(email, password, User)
-        return userToken
+        return {token:userToken}
       }
     }
   }
