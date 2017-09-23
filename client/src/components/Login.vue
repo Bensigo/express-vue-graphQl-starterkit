@@ -11,11 +11,11 @@
   
             </v-text-field>
             <span>
-                                <router-link  to='/register'>
+                                <router-link  to='/register' tag='span'>
                                 <p>Don't have an account</p>
                                 </router-link>
                               </span>
-            <v-btn dark class='primary' @click='authenticate'>Login</v-btn>
+            <v-btn dark class='success' @click='authenticate'>Login</v-btn>
           </v-flex>
         </v-layout>
       </v-container>

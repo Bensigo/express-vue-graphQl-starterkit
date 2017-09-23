@@ -14,7 +14,7 @@
             <v-text-field required label='confirm' type='password' v-model='confirm' data-vv-name='confirm' :error-messages="errors.collect('confirm')" v-validate="'required|confirmed:pwd'">
   
             </v-text-field>
-            <span class='danger'>{{error}}</span>
+            <!-- <span class='danger'>{{error}}</span> -->
             <span>
                         <router-link  to='/login'>
                         <p>Already have an account</p>
@@ -70,9 +70,9 @@
           this.$router.push('/profile')
         })
         .catch((err) => {
-          this.error = err.message.replace('GraphQL error:', '')
+          // this.error = err.message.replace('GraphQL error:', '')
           console.log(err)
-          return this.error
+          // return this.error
         })
       },
       saveUserData (tokenId, userId) {
