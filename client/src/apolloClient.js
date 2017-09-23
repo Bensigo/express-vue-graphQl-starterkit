@@ -13,7 +13,8 @@ networkInterface.use([{
     }
     // get the token from localstorage and save it to authoriation header
     if (localStorage.getItem('token_id')) {
-      req.options.headers.authorization = `Bearer ${localStorage.getItem('token_id')}`
+      req.options.headers.authorization = ` ${localStorage.getItem('token_id')}`
+      console.log('authorizationHeader:', req.options.headers.authorization)
     }
     next()
   }

@@ -4,12 +4,18 @@
       temporary
       v-model='showDrawer'
       >
-      <v-list>
+      <v-list v-if='user'>
+        <v-list-tile>
+            <v-icon left class='m-1'>account_circle</v-icon>
+            <v-list-tile-title>{{getUser}}</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+      <v-divider></v-divider>
+      <v-list  v-if='!user'>
         <v-list-tile 
           v-for='link in navItems' 
           :key='link.title'
           :to='link.path'
-          v-if='!link.isLogin'
           >
           <v-list-tile-action>
             <v-icon>{{link.icon}}</v-icon>
@@ -19,6 +25,16 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
+     <v-list v-else >
+       <v-list-tile @click.native="logout">
+         <v-list-tile-action>
+           <v-icon>lock</v-icon>
+         </v-list-tile-action>
+         <v-list-tile-content>
+           <v-list-tile-title>logout</v-list-tile-title>
+         </v-list-tile-content>
+       </v-list-tile>
+    </v-list> 
     </v-navigation-drawer>
     <v-toolbar dark class='purple darken-2 mb-1'>
       <v-toolbar-title>
@@ -32,16 +48,34 @@
         class='hidden-md-and-up'>
       </v-toolbar-side-icon>
       <v-toolbar-items class='hidden-md-and-down'>
-         <v-btn 
-          flat
-          v-for='link in navItems'
-          v-if='!link.isLogin' 
-          :key='link.title'
-          :to='link.path'
-          >
-          <v-icon left>{{link.icon}}</v-icon>
-          {{link.title}}
-          </v-btn>
+        <span v-if='!user' class='pt-2'>
+          <v-btn    
+            flat
+            v-for='link in navItems'
+              :key='link.title'
+              :to='link.path'
+            >
+              <v-icon left>{{link.icon}}</v-icon>
+              {{link.title}}
+            </v-btn> 
+          </span>  
+         <span  v-else class='pt-2'> 
+          <v-btn
+            flat
+            @click='logout'
+             >
+               <v-icon left>lock</v-icon>
+               Logout
+            </v-btn>
+            <v-btn
+              flat
+              to='/profile'
+             
+              >
+               <v-icon left>account_circle</v-icon>
+               {{getUser}}
+            </v-btn> 
+          </span>  
       </v-toolbar-items>
     </v-toolbar>
   </div>
@@ -53,12 +87,28 @@ export default {
     return {
       title: 'App',
       navItems: [
-        {title: 'login', icon: 'lock_open', path: '/login', isLogin: false},
-        {title: 'register', icon: 'account_circle', path: '/register', isLogin: false},
-        {title: 'logout', icon: 'lock', path: '/', isLogin: true},
-        {title: 'profile', icon: 'account_circle', path: '/profile', isLogin: true}
+        {title: 'login', icon: 'lock_open', path: '/login'},
+        {title: 'register', icon: 'account_circle', path: '/register'}
       ],
-      showDrawer: false
+      getUser: '',
+      showDrawer: false,
+      loading: 0
+    }
+  },
+  computed: {
+    user () {
+      this.getUser = this.$root.$data.username
+      return this.$root.$data.user
+    }
+  },
+  methods: {
+    logout () {
+      localStorage.removeItem('user_id')
+      localStorage.removeItem('token_id')
+      this.$root.$data.user = localStorage.getItem('user_id')
+      this.$root.$data.username = ''
+      this.getUser = ''
+      this.$router.go('/')
     }
   }
 }

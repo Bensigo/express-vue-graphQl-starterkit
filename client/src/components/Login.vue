@@ -25,6 +25,8 @@
 
 <script>
   import FormContainer from './FormContainer'
+  import {LOGIN_MUTATION} from '../constant/graphql'
+  import {getUserIdFromToken} from '../utils/authService'
   export default {
     $validates: true,
     data () {
@@ -37,6 +39,26 @@
       authenticate () {
         this.$validator.validateAll()
         console.log(this.email, this.password)
+        const {email, password} = this
+        this.$apollo.mutate({
+          mutation: LOGIN_MUTATION,
+          variables: {
+            email,
+            password
+          }
+        }).then(response => {
+          const tokenId = response.data.login.token
+          const userId = getUserIdFromToken(tokenId)
+          this.saveuserData(tokenId, userId)
+          this.$root.$data.user = userId
+          this.$router.push('/profile')
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      saveuserData (tokenId, userId) {
+        localStorage.setItem('token_id', tokenId)
+        localStorage.setItem('user_id', userId)
       }
     },
     components: {
