@@ -12,7 +12,7 @@ module.exports = `
   token: String!
  }
  type Query {
-  user: User!
+  getUser: User!
  }
  type Mutation {
    createUser(username: String!, email: String!, password: String!): Token!
