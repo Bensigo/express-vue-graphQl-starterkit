@@ -16,7 +16,7 @@
   "author": "Bensigo",
   "license": "MIT",
   "dependencies": {
-    "apollo-server-express": "^1.1.2",
+    "apollo-server-express": "^2.14.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.1",
     "cors": "^2.8.4",
